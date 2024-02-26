@@ -1,4 +1,4 @@
-import { DiaryEntry, NonSensitiveInfoDiaryEntry, newDiaryEntry } from '../types'
+import { DiaryEntry, NonSensitiveInfoDiaryEntry, NewDiaryEntry } from '../types'
 import diaryData from './diaries.json'
 // el orden en la cadena de importaciones es .tsx, .ts, .node, .js, .json -> aunque ES dice que usemos el .js, ts ni lo agrega xD de frente lee los .ts
 
@@ -23,14 +23,14 @@ export const getEntries = (): DiaryEntry[] => diaries
 //   diaries = [...diaries, newDiary]
 //   return newDiary
 // }
-export const addEntry = (newDiary: newDiaryEntry): DiaryEntry => {
-  const newDiaryEntry = {
+export const addEntry = (newDiary: NewDiaryEntry): DiaryEntry => {
+  const NewDiaryEntry = {
     id: Math.max(...diaries.map(d => d.id)) + 1,
     ...newDiary
   }
 
-  diaries = [...diaries, newDiaryEntry]
-  return newDiaryEntry
+  diaries = [...diaries, NewDiaryEntry]
+  return NewDiaryEntry
 }
 
 export const getEntriesWithoutSensitiveInfo = (): NonSensitiveInfoDiaryEntry[] => diaries.map(({ id, date, weather, visibility }) => ({ id, date, weather, visibility }))

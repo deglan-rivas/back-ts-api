@@ -1,5 +1,6 @@
 import express from 'express'
 import { getEntries, getEntriesWithoutSensitiveInfo, findById, addEntry } from '../services/diaryService'
+import parseDiaryEntry from '../utils/diaries'
 
 const router = express.Router()
 
@@ -32,15 +33,23 @@ router.get('/private', (_req, res) => {
 // splitear los enums.ts de las definiciones .d.ts types e interfaces y quizás clases
 // TODO estaría bueno primero ver los videos de largo anotan la estructura de los videos cada 3-5 puntos de mi cabeza en notion con lista ordenada y tabs para acotaciones, luego yo mismo copiar el código y explicar, y finalmente escribirlo yo solo ez xd
 router.post('/', (req, res) => {
-  console.log(req.body)
-  const { date, weather, visibility, comment } = req.body
-  const newDiary = addEntry({
-    date,
-    weather,
-    visibility,
-    comment
-  })
-  res.json(newDiary)
+  // console.log(req.body)
+  // const { date, weather, visibility, comment } = req.body
+  // const newDiary = addEntry({
+  //   date,
+  //   weather,
+  //   visibility,
+  //   comment
+  // })
+  // res.json(newDiary)
+
+  try {
+    const unformatedDiary = parseDiaryEntry(req.body)
+    const addedDiary = addEntry(unformatedDiary)
+    res.json(addedDiary)
+  } catch (e: any) {
+    res.status(400).send(e.message)
+  }
 })
 
 export default router
